@@ -1,0 +1,217 @@
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class P_HM {
+	
+	public static void main(String[] args) {
+
+        boolean again = true;
+
+        while (again){
+
+            Scanner scanner  = new Scanner (System.in);
+        
+                System.out.println("\n=== Welcome to the 3-day Physical Health Monitor ===");
+                System.out.print("First name: ");
+                String f_name= scanner.nextLine(); // Store first name
+                System.out.print("Last name: ");
+                String s_name = scanner.nextLine(); // Store last name
+                
+                // Collect gender and age
+                System.out.print("Gender (Male/Female): ");
+                String genders = scanner.nextLine(); // Store gender
+                System.out.print("Age: ");
+                int aged = scanner.nextInt(); // Store age
+                
+                // Consume the leftover newline character
+                scanner.nextLine();  // This is to clear the buffer after reading the integer
+                //Display user information
+                System.out.println("\n=== User Information ===");
+                System.out.println("Full name: " +f_name + " " + s_name);
+                System.out.println("Gender: " + genders);
+                System.out.println("Age: " + aged);
+
+            //Initialize arrays for 3-day tracking
+            int[] stepst = new int [3];
+            int[] s_hours = new int [3];
+            int [] h_rate = new int [3];
+
+            //collective data
+            for (int day = 0;  day < 3; day++) {
+                System.out.println("\n=== Monitoring Section ===");
+                System.out.println("\nDay " + (day +1) + ":");
+
+                System.out.print("\nEnter steps taken: ");//q1
+                stepst[day] = scanner.nextInt();
+
+                System.out.print("Enter hours of sleep: ");//q2
+                s_hours[day] = scanner.nextInt();
+
+                System.out.print("Enter average heart rate (bpm): ");//q3
+                h_rate[day] = scanner.nextInt();
+
+                // Evaluate Health based on the input for each day
+                System.out.println("\nHealth Status for Day " + (day + 1) + ":");
+                
+                // Check steps
+                if (stepst[day] >= 10000) {
+                    System.out.println("Steps: " + stepst[day] + " (Healthy)");
+                } else {
+                    System.out.println("Steps: " + stepst[day] + " (Unhealthy)");
+                }
+                
+                // Check sleep
+                if (s_hours[day] >= 7 && s_hours[day] <= 9) {
+                    System.out.println("Sleep: " + s_hours[day] + " hours (Healthy)");
+                } else {
+                    System.out.println("Sleep: " + s_hours[day] + " hours (Unhealthy)");
+                }
+                
+                // Check heart rate
+                if (h_rate[day] >= 60 && h_rate[day] <= 100) {
+                    System.out.println("Heart Rate: " + h_rate[day] + " bpm (Healthy)");
+                } else {
+                    System.out.println("Heart Rate: " + h_rate[day] + " bpm (Unhealthy)");
+                }
+
+            }
+            //Collect users data
+            System.out.println("\n=== BMI Calculator ===");
+            System.out.print("\nEnter your height in meters (e.g., 1.75): ");//q4
+            double height = scanner.nextDouble();
+            System.out.print("Enter your weight in kg (e.g., 70.5): ");//q5
+            double weight = scanner.nextDouble();
+
+             // Calculate BMI
+            double bmi = weight / (height * height);
+            DecimalFormat df = new DecimalFormat("#.0");  // Format to 1 decimal place
+
+            // Output the BMI result
+            System.out.println("\n=================");
+            System.out.println("Your BMI is: " + df.format(bmi));
+            System.out.println("=================");
+
+            // BMI Categories
+            // Check the BMI category and provide a health tip
+            if (bmi < 18.5) {
+                System.out.println("\n== You are underweight. ==");
+                System.out.println("Health Tip: Consider incorporating nutrient-dense foods into your diet,"); 
+                System.out.println("such as lean proteins, whole grains, fruits, and vegetables to help reach a healthy weight.");
+            } else if (bmi < 24.9) {
+                System.out.println("\n== You have a normal weight. ==");
+                System.out.println("Health Tip: Keep up the good work! Continue maintaining a balanced diet and regular physical activity");
+                System.out.println("to stay healthy.");
+            } else if (bmi < 29.9) {
+                System.out.println("\n== You are overweight. ==");
+                System.out.println("Health Tip: Focus on a balanced diet with a mix of whole foods and exercise regularly");
+                System.out.println(" to help achieve a healthier weight.");
+            } else {
+                System.out.println("\n== You are obese. ==");
+                System.out.println("Health Tip: It's important to consult with a healthcare professional for a tailored plan,");
+                System.out.println("which may include diet changes and physical activity, to work toward a healthier weight.");
+            }
+            
+            System.out.println("\n-----------------------------------------------------------");
+            // Calculate weekly averages and calories burned
+            double avgSteps = 0;
+            double avgSleep = 0;
+            double avgHeartRate = 0;
+
+            // Sum values for each array
+            for (int i = 0; i < stepst.length; i++) {
+                avgSteps += stepst[i];   // Sum steps
+                avgSleep += s_hours[i];    // Sum sleep hours
+                avgHeartRate += h_rate[i]; // Sum heart rate
+            }
+
+            // Calculate the averages (since there are 3 days)
+            avgSteps /= stepst.length;       // Average steps
+            avgSleep /= s_hours.length;        // Average sleep
+            avgHeartRate /= h_rate.length; // Average heart rate
+
+
+            // Display 3-days summary
+            System.out.println("\n=== 3-Day Health Summary ===");
+            System.out.println("Average Steps: " + (int) avgSteps);
+            System.out.println("Average Sleep: " + (int) avgSleep + "hours");
+            System.out.println("Average Heart Rate: " + (int) avgHeartRate + "BPM");
+            
+            // Overall health status
+            System.out.println("\nOverall Average:");
+            if (avgSteps >= 10000) {
+                System.out.println("Overall Steps status: Healthy");
+            }
+            else {
+                System.out.println("Overall Steps status: Unhealthy!");
+                System.out.println("Health Tip: Aim to increase your daily steps");
+            }
+
+            if (avgSleep >= 7) {
+                System.out.println("\nOverall Sleep status: Healthy");
+            }
+            else {
+                System.out.println("\nOverall Sleep status: Unhealthy!");
+                System.out.println("Health Tip: Consider increasing your sleep to 7-9 hours per night"); 
+                System.out.println("better health.");
+                
+            }
+            if (avgHeartRate < 100) {
+                System.out.println("\nOverall Heart Rate status: Healthy");
+            }
+            else {
+                System.out.println("\nOverall Heart Rate status: Unhealthy!");
+                System.out.println("\nYour heart rate seems high. Consider consulting a healthcare provider.");
+            }
+            scanner.nextLine();
+            
+            // Ask the user if they want a medication reminder
+            System.out.print("\nWould you like to set a medication reminder? (yes/no)");
+            String response = scanner.nextLine().toLowerCase();
+            
+            if (response.equals("yes")) {
+                // Ask for the medication details
+                System.out.print("\nPlease enter the name/type of your medicine:");
+                String medicineName = scanner.nextLine();
+                
+                System.out.println("Please enter the date for the reminder (e.g., YYYY-MM-DD):");
+                String reminderDate = scanner.nextLine();
+                
+                // Confirm and display the reminder
+                System.out.println("\n=== Medication Reminder Set!===");
+                System.out.println("\nMedicine: " + medicineName);
+                System.out.println("Reminder Date: " + reminderDate);
+                
+                // Ask if the user wants to view the reminder
+                System.out.println("\nWould you like to view your reminder? (yes/no)");
+                String viewReminder = scanner.nextLine().toLowerCase();
+                
+                if (viewReminder.equals("yes")) {
+                    // Display the stored reminder
+                    System.out.println("\nYour Medication Reminder:");
+                    System.out.println("Medicine: " + medicineName);
+                    System.out.println("Reminder Date: " + reminderDate);
+                } else {
+                    System.out.println("!!! Reminder not viewed. !!!");
+                }          
+            } 
+            else {
+                System.out.println("! No medication reminder has been set. !");
+            }
+
+            System.out.print("\nDo you want to test again? (yes/no): ");
+            String test = scanner.nextLine();
+            if (test.contains("yes")){
+                again = true;
+            }
+            else {
+                again = false;
+                System.out.println("\nGreat job taking charge of your health and using the program to track your progress!");
+
+            }
+        }
+    }  
+}
+
+
+  
